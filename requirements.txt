@@ -1,0 +1,10 @@
+# The tools (Python "packages") this project needs.
+# Install them into the project's private toolbox with:
+#   .venv/bin/pip install -r requirements.txt
+
+pypdf            # reads text out of PDF files
+chromadb         # small local database for searching document passages
+python-dotenv    # loads settings (like your API key) from the .env file
+reportlab        # used by build_rag_docs.py to create the sample PDFs
+
+anthropic        # Claude (the AI that writes answers)
