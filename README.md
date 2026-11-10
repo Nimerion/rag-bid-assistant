@@ -1,11 +1,8 @@
 # rag-bid-assistant
 
-An app that answers questions using the company documents in `rag_docs/`.
+An app that answers questions using sample documents in rag_docs/. The documents are AI-generated and used only for testing.
 It finds the relevant passages in the documents and passes them to an AI model
 so the answer comes from those documents.
-
-> **Note:** The PDFs in `rag_docs/` are synthetic sample documents, generated
-> with AI. They are not real vendor documents.
 
 ## Project layout
 
