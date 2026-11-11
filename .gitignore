@@ -221,3 +221,5 @@ __marimo__/
 
 # macOS folder settings file
 .DS_Store
+# Local vector database, rebuilt by ingest.py
+chroma_db/
