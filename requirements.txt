@@ -9,3 +9,4 @@ reportlab        # used by build_rag_docs.py to create the sample PDFs
 
 anthropic        # Claude (the AI that writes answers)
 sentence-transformers  # turns text into embeddings for searching passages
+langchain-text-splitters  # splits text at paragraph/sentence breaks instead of mid-word

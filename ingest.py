@@ -2,8 +2,11 @@ import glob
 import os
 
 import chromadb
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from pypdf import PdfReader
 from sentence_transformers import SentenceTransformer
+
+SPLITTER = "recursive"  # "recursive" (LangChain) or "simple" (our own split_text)
 
 CHUNK_SIZE = 500
 CHUNK_OVERLAP = 100
@@ -35,6 +38,20 @@ def split_text(text, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
     return chunks
 
 
+recursive_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=CHUNK_SIZE,
+    chunk_overlap=CHUNK_OVERLAP,
+    separators=["\n\n", "\n", ". ", " ", ""],
+)
+
+
+def chunk_page(text):
+    """Split one page of text using whichever splitter SPLITTER selects."""
+    if SPLITTER == "recursive":
+        return recursive_splitter.split_text(text)
+    return split_text(text)
+
+
 # --- Read and chunk every PDF, sorted by file name ---
 pdf_paths = sorted(glob.glob(os.path.join(DOCS_DIR, "*.pdf")), key=os.path.basename)
 
@@ -49,7 +66,7 @@ for pdf_path in pdf_paths:
     file_chunks = 0
     for page_number, page in enumerate(reader.pages, start=1):
         page_text = page.extract_text() or ""
-        for chunk_number, chunk_text in enumerate(split_text(page_text), start=1):
+        for chunk_number, chunk_text in enumerate(chunk_page(page_text), start=1):
             # Stable id: same file + page + chunk number always gives the same id.
             ids.append(f"{file_name}_p{page_number}_c{chunk_number}")
             documents.append(chunk_text)
